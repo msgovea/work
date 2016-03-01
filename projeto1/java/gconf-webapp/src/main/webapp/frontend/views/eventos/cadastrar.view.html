@@ -1,0 +1,59 @@
+<h3>{{ (funcao == 'cadastro') ? "Cadastrar novo evento" : "Editar evento"}} CI&T</h3>
+
+<div class="col-sm-6 center-content">
+    <div class="panel panel-default">
+        <div class="panel-heading">{{ (funcao == 'cadastro') ? "Cadastrar novo evento" : "Editar evento"}}</div>
+        <div class="panel-body">
+            <form name="eventos">
+                <div class="form-group">
+                    <p class="text-danger" ng-if="messageCad">{{messageCad}}</p>
+                    <div class="alert alert-success" role="alert" ng-if="status">Evento cadastrado com sucesso!</div>
+                    <div class="alert alert-danger" role="alert" ng-show="status == false">Erro ao cadastrar evento!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Título</label>
+                    <input type="text" class="form-control" ng-model="event.title" required>
+                </div>
+                <div class="form-group">
+                    <label>Descrição</label>
+                    <textarea class="form-control" ng-model="event.description" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Local do evento</label>
+                    <input type="text" class="form-control" ng-model="event.locale" required>
+                </div>
+                <div class="form-group">
+                    <label>Data Início</label>
+                    <input type="text" class="form-control" ng-model="event.start_date" required ui-mask="99/99/9999"
+                           model-view-value="true">
+                </div>
+                <div class="form-group">
+                    <label>Hora Início</label>
+                    <input type="text" class="form-control" ng-model="event.start_time" required ui-mask="99:99:99"
+                           model-view-value="true">
+                </div>
+                <div class="form-group">
+                    <label>Data Término</label>
+                    <input type="text" class="form-control" ng-model="event.end_date" ui-mask="99/99/9999"
+                           model-view-value="true">
+                </div>
+                <div class="form-group">
+                    <label>Hora Término</label>
+                    <input type="text" class="form-control" ng-model="event.end_time" ui-mask="99:99:99"
+                           model-view-value="true">
+                </div>
+            </form>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary col-sm-12" ng-if="funcao == 'cadastro'" ng-click="cadastrarEvento(event)">
+                Cadastrar evento
+            </button>
+            <button class="btn btn-primary col-sm-12" ng-if="funcao == 'edicao'" ng-click="updateEvent(event)">Salvar
+                edição
+            </button>
+        </div>
+        </form>
+    </div>
+</div>
+</div><br>

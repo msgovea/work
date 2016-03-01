@@ -1,0 +1,41 @@
+<h3>Lista de Eventos CI&T </h3>
+
+<!-- ALERTA COM UI-BOOTSTRAP -->
+<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="3000" close="closeAlert($index)">
+    {{alert.msg}}
+</uib-alert>
+<div class="events">
+        <input class="form-control" type="text" ng-model="filterTable" placeholder="Buscar..."/>
+        <br>
+        <div>
+            <pre>{{user | json}}</pre>
+        </div>
+        <table width="100%" class="table table-responsive table-striped">
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Local</th>
+                <th>Data/Hora início</th>
+                <th>Data/Hora encerramento</th>
+                <th>Ações</th>
+            </tr>
+            <tr ng-repeat="event in events | filter:filterTable">
+                <td>{{event.id}}</td>
+                <td>{{event.title}}</td>
+                <td>{{event.locale}}</td>
+                <td>{{event.start_datetime | date : "dd/MM/yyyy 'às' hh'h'mm a"}}</td>
+                <td>{{event.end_datetime | date : "dd/MM/yyyy 'às' hh'h'mm a"}}</td>
+                <td>
+                    <button class="btn" ng-click="editaDados(event)">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+
+                    <button class="btn btn-danger" ng-click="deletarEvento(event.id)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+
+                </td>
+            </tr>
+
+        </table>
+</div>
