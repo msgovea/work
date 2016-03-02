@@ -1,0 +1,88 @@
+<h3>Lista de Conferencias CI&T</h3>
+
+<!-- ALERTA COM UI-BOOTSTRAP -->
+<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}"
+	dismiss-on-timeout="3000" close="closeAlert($index)">
+{{alert.msg}} </uib-alert>
+<div class="events">
+
+	<div class="row">
+
+		<div class="col-md-12">
+			<div class="col-md-10">
+				<input class="form-control" type="text" ng-model="filterTable"
+					placeholder="Buscar..." />
+			</div>
+
+			<button type="button" class="btn btn-primary col-md-2"
+				ng-model="exibir" uib-btn-checkbox btn-checkbox-true="true"
+				btn-checkbox-false="false">Busca Avancada</button>
+		</div>
+	</div>
+	<br>
+
+	<div ng-if="exibir" class="panel panel-default">
+		<div class="panel-body">
+			<form>
+				<label>Titulo</label>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Text input">
+				</div>
+				<label>Assunto</label>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Text input">
+				</div>
+				<label>Organizador</label>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Text input">
+				</div>
+				<div class="row">
+
+					<div class="form-group col-md-6">
+						<label>A partir de</label> 
+						<input type="text" class="form-control" placeholder="Text input">
+					</div>
+
+					<div class="form-group col-md-6">
+						<label>Ate</label> <input type="text" class="form-control"
+							placeholder="Text input">
+					</div>
+					
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<br>
+	<table width="100%" class="table table-responsive table-striped">
+		<tr>
+			<th>ID</th>
+			<th>Título</th>
+			<th>Assunto</th>
+			<th>Organizador</th>
+			<th>Data início</th>
+			<th>Data encerramento</th>
+			<th>Ações</th>
+		</tr>
+		<tr ng-repeat="conferencia in conferencias | filter:filterTable">
+			<td>{{conferencia.id}}</td>
+			<td>{{conferencia.organizador}}</td>
+			<td>{{conferencia.titulo}}</td>
+			<td>{{conferencia.assunto}}</td>
+			<td>{{conferencia.dataIni | date : "dd/MM/yyyy" }}</td>
+			<td>{{conferencia.dataFim | date : "dd/MM/yyyy" }}</td>
+			<td>
+				<button class="btn" ng-click="editaDados(conferencia)">
+					<span class="glyphicon glyphicon-pencil"></span>
+				</button>
+
+				<button class="btn btn-danger"
+					ng-click="deletarEvento(conferencia.id)">
+					<span class="glyphicon glyphicon-remove"></span>
+				</button>
+
+			</td>
+		</tr>
+
+	</table>
+</div>

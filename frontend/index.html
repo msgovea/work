@@ -1,0 +1,68 @@
+<html ng-app="CitEventos">
+    <head>
+        <title>CI&T Eventos - App AngularJS</title>
+        <meta charset="utf-8">
+
+        <!--scripts-->
+        <script src="lib/angularjs/angular.min.js"></script>
+        <script src="lib/jquery/jquery-1.12.0.min.js"></script>
+        <script src="lib/angular-animate/angular-animate.min.js"></script>
+        <script src="lib/bootstrap/js/ui-bootstrap-tpls-1.1.2.min.js"></script>
+
+        <script src="lib/angular-ui-router/angular-ui-router.min.js"></script>
+        <script src="lib/angular-ui-mask/mask.min.js"></script>
+        <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="lib/angularCookies/angular-cookies.min.js"></script>
+
+
+        <!--app-->
+        <script src="js/app.js"></script>
+        <script src="js/services/conferencias/app.service.js"></script>
+        <script src="js/services/eventos/app.service.js"></script>
+
+        <!--controllers-->
+        <script src="js/controllers/login.controller.js"></script>
+        <script src="js/controllers/main.controller.js"></script>
+        <script src="js/controllers/eventos/listar.controller.js"></script>
+        <script src="js/controllers/eventos/cadastrar.controller.js"></script>
+        <script src="js/controllers/eventos/index.controller.js"></script>
+        <script src="js/controllers/conferencias/listar.controller.js"></script>
+        <script src="js/controllers/conferencias/cadastrar.controller.js"></script>
+        <script src="js/controllers/conferencias/index.controller.js"></script>
+        <script src="js/controllers/modal/confirmDelete.controller.js"></script>
+
+        <!--css-->
+        <link rel="stylesheet" type="text/css" media="all" href="lib/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="all" href="lib/bootstrap/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" media="all" href="css/cit-eventos.css">
+
+        <!--loading for http-->
+        <link rel='stylesheet' href='lib/load/loading-bar.min.css' type='text/css' media='all' />
+        <script type='text/javascript' src='lib/load/loading-bar.min.js'></script>
+
+        <!-- toastr -->
+        <link 	rel='stylesheet' href='lib/angular-toaster/angular-toastr.min.css' type='text/css' media='all' />
+        <script type='text/javascript' src='lib/angular-toaster/angular-toastr.min.js'></script>
+        <script type='text/javascript' src='lib/angular-toaster/angular-toastr.tpls.min.js'></script>
+
+        <!-- userapp -->
+        <script type='text/javascript' src='lib/userapp/userapp.client.js'></script>
+        <script type='text/javascript' src='lib/userapp/angularjs.userapp.js'></script>
+
+        <link rel="stylesheet" type="text/css" media="all" href="lib/font-awesome/css/font-awesome.min.css" />
+
+    </head>
+
+    <body class="app-cit">
+        <div class="container" ui-view>
+
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted">&copy; 2016 CI&T Developer</p>
+            </div>
+        </footer>
+
+    </body>
+</html>

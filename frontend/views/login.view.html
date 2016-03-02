@@ -1,0 +1,30 @@
+<div class="col-sm-2 text-center logo">
+    <img src="img/cit-logo.png" alt="CI&T Eventos" class="img-responsive" />
+</div>
+
+<div class="col-sm-4 center-content">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">Informe email e senha</div>
+        <div class="panel-body">
+            <p class="text-danger" ng-if="messageLogin">{{messageLogin}}</p>
+            <form name="loginEventos" role="form" ua-login novalidate>
+                <div class="form-login">
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Email CI&T" ng-model="login.email" name="login" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Senha" ng-model="login.password" name="password" required />
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success col-xs-12" ng-click="loginApp(login)">ENTRAR</button><br><br><br>
+                        <strong> Faça login com: </strong>
+                    </div>
+                    <button ua-oauth-link="google" class="btn btn-danger col-xs-3"class="btn btn-google"><i class="fa fa-google-plus"></i></button>
+                    <button ua-oauth-link="facebook" class="btn btn-primary col-xs-3" class="btn btn-facebook"> <i class="fa fa-facebook-square"></i></button>
+                    <button ua-oauth-link="linkedin" class="btn btn-info col-xs-3" class="btn btn-facebook"> <i class="fa fa-linkedin-square"></i></button>
+                    <button ua-oauth-link="github" class="btn btn-default col-xs-3" class="btn btn-facebook"> <i class="fa fa-github"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
