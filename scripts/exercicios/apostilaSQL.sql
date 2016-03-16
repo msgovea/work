@@ -1,0 +1,325 @@
+-- Exercicio Capitulo 2
+  
+CREATE TABLE ALUNO 
+(
+  NOME VARCHAR2(30) NOT NULL,
+  ENDER VARCHAR2(50),
+  CIDADE VARCHAR2(25),
+  ESTADO VARCHAR2(2),
+  CEP NUMBER(5),
+  ANIVERSARIO DATE
+);
+
+INSERT INTO ALUNO 
+  VALUES (
+    'Mateus',
+    'R. Luiz Fantini 336',
+    'Campinas', 
+    'SP',
+    '13059',
+    DATE '1996-11-14'
+  );
+  
+INSERT INTO ALUNO 
+  VALUES (
+    'Maria Aparecida',
+    'R. Luiz Fantini 336',
+    'Campinas', 
+    'SP',
+    '13059',
+    DATE '1963-03-31'
+  );
+  
+INSERT INTO ALUNO 
+  VALUES (
+    'Edmur Govêa',
+    'R. Luiz Fantini 336',
+    'Campinas', 
+    'SP',
+    '13059',
+    DATE '1954-12-18'
+  );
+  
+INSERT INTO ALUNO 
+  VALUES (
+    'Thiago Sauer Govêa',
+    'R. NAO SEI, 127',
+    'Campinas', 
+    'SP',
+    '13043',
+    DATE '1984-05-03'
+  );
+  
+-- SELECT * FROM ALUNO;
+SELECT NOME, ANIVERSARIO FROM ALUNO;
+
+SELECT ENDER, CIDADE, ESTADO, CEP FROM ALUNO WHERE NOME = 'Mateus';
+
+
+
+
+  -- Exercicio CAP 3
+-- 1)  
+SELECT CARGO, NOME_EMP, SAL/160 SAL_HORA
+FROM EMP;
+
+-- 2)
+SELECT NOME_EMP, SAL+COM TOTAL_MENSAL
+FROM EMP
+WHERE CARGO = 'Vendedor';
+
+-- 3)
+SELECT NOME_EMP, SAL+COM TOTAL_MENSAL
+FROM EMP
+WHERE CARGO = 'Vendedor'
+ORDER BY SAL/160 desc;
+
+-- 4)
+SELECT MIN(SAL)MENOR_SALARIO
+FROM EMP;
+
+-- 5)
+SELECT MIN(SAL)MENOR_SALARIO, MAX(SAL)MAIOR_SALARIO, AVG(SAL)MEDIA_SALARIO
+FROM EMP
+GROUP BY N_DEP
+having count(distinct n_emp) > 1;
+
+-- 
+CREATE TABLE DEP (
+  N_DEP NUMBER(6) NOT NULL, 
+  LOCALIDADE VARCHAR2(20),
+  NOME_DEP VARCHAR2(20)
+);
+
+INSERT INTO DEP VALUES (20, 'Campinas', 'Vendas');
+INSERT INTO DEP VALUES (30, 'São Paulo', 'RH');
+
+-- 6)
+SELECT NOME_EMP, EMP.N_DEP, NOME_DEP
+FROM EMP, DEP
+WHERE EMP.N_DEP = DEP.N_DEP AND 
+    LOCALIDADE IN (‘São Paulo', 'Campinas');
+
+
+
+-- Exercicios CAP 4
+
+-- 1)
+CREATE TABLE EMPREG AS
+  SELECT N_EMP, NOME_EMP, SAL FROM EMP;
+  
+-- 2)
+RENAME EMPREG TO TEMP;
+DROP TABLE TEMP;
+
+-- 3)
+DESCRIBE ALUNO;
+
+ALTER TABLE ALUNO 
+  MODIFY(CIDADE VARCHAR2(35))
+  ADD(SAL_DESEJADO NUMBER(11,2));
+  
+-- 4)
+INSERT INTO ALUNO (NOME,ANIVERSARIO,SAL_DESEJADO) 
+  VALUES (
+    'Nome',
+    DATE '1984-05-03',
+    '123456789,10'
+  );
+
+-- 5)
+UPDATE ALUNO
+  SET SAL_DESEJADO = '123456'
+  WHERE NOME = 'Mateus';
+  
+UPDATE ALUNO
+  SET ENDER = 'R. ALTERADA', CIDADE = 'CIDADE ALTERADA', ESTADO = 'SP', CEP = '13059'
+  WHERE NOME = 'Nome';
+ 
+-- 6)
+CREATE TABLE TEMP AS
+  SELECT NOME, ENDER, CIDADE, ESTADO, CEP, ANIVERSARIO 
+    FROM ALUNO;
+    
+    DROP TABLE ALUNO;
+    RENAME TEMP TO ALUNO;
+    
+-- 7)
+DELETE FROM ALUNO
+  WHERE NOME = 'Nome';
+  
+-- 8)
+CREATE OR REPLACE VIEW DEP_SAL (NOME_DEP, NUM_FUNC, SAL_MIN, SAL_MED, SAL_MAX)
+AS
+  SELECT d.NOME_DEP, count(e.N_EMP), min(e.sal), avg(e.sal), max(e.sal)
+    FROM dep d, emp e
+    WHERE d.N_DEP = e.N_DEP 
+    GROUP BY d.NOME_DEP;
+        
+-- 9)
+DESCRIBE DEP_SAL;
+  SELECT * FROM DEP_SAL;
+
+-- 10)
+
+UPDATE EMP
+  SET NOME_EMP = 'Samanta', SAL = 300000
+  WHERE NOME_EMP = 'Funci2';
+  
+-- 11)
+SELECT * FROM DEP_SAL;
+rollback;
+SELECT * FROM DEP_SAL;
+
+
+
+-- EXERCICIOS CAP 6
+
+/*SELECT * FROM EMP;
+SELECT COM FROM EMP;
+UPDATE EMP 
+       SET DATA_ADM = '01/05/85'
+       WHERE SAL <= 1500;
+       */
+
+-- 1)
+SELECT NOME_EMP, CARGO
+       FROM EMP
+       WHERE (DATA_ADM BETWEEN '01/02/85' AND '27/12/85')
+             AND COM IS NOT NULL;
+       
+-- 2)       
+SELECT USERENV('terminal') FROM dual;
+SELECT USERENV('language') FROM dual;
+SELECT USERENV('sessionid')FROM dual;
+
+/*
+UPDATE EMP
+       SET CARGO = 'DIRETORES'
+       WHERE upper(CARGO) = 'ESTAG';
+*/
+-- 3)
+SELECT STDDEV(SAL)DESVPADR, AVG(SAL)MEDIA
+FROM EMP
+WHERE CARGO IN('PRESIDENTE', 'DIRETORES');
+
+-- 4)
+SELECT NOME,  TO_CHAR(ANIVERSARIO, 'DD/MM') DATA1,
+              TO_CHAR(ANIVERSARIO, 'DD-MON')DATA2
+              FROM ALUNO;
+
+-- 5)
+SELECT MONTHS_BETWEEN(MAX(DATA_ADM),MIN(DATA_ADM))MESES
+       FROM EMP;
+
+-- 6)
+SELECT N_EMP, NOME_EMP, CARGO, SAL+NVL(COM,0) TOTRECEB FROM EMP;
+
+-- 7)
+SELECT NOME_EMP, 
+       DECODE(UPPER(CARGO),
+                    'SECRETARIA', 1,
+                    'VENDEDOR',   2,
+                    'ANALISTA',   3,
+                                  4)
+       FROM EMP;    
+       
+-- 8)
+SELECT NOME_EMP, ROUND(GREATEST(SAL,SAL_MED))SALIDEAL
+FROM EMP, DEP_SAL, DEP
+WHERE DEP.N_DEP = EMP.N_DEP AND DEP.NOME_DEP = DEP_SAL.NOME_DEP;
+
+-- 9)
+SELECT SUBSTR(NOME_EMP,1,1)INICIAIS 
+FROM EMP
+ORDER BY DATA_ADM;
+
+
+
+-- Exercicios capitulo 7
+-- 1)
+SELECT uid IDENTIFICADOR, user NOME_USUARIO, to_char(sysdate, 'HH24:mi:ss - DD/MON/YYYY') DATA_ATUAL from dual;
+
+-- 2)
+SELECT NOME_EMP EMPREGADO,
+       NVL(     (SELECT NOME_EMP FROM EMP CHEFE 
+                WHERE FUNC.CHEFE = CHEFE.N_EMP ), '________') NOME_CHEFE FROM EMP FUNC;
+
+-- 3)
+SELECT NOME_EMP, SAL, LOCALIDADE, (SELECT faixa from faixa_sal WHERE SAL BETWEEN SALMIN AND SALMAX) FAIXA_SALARIAL
+       FROM EMP, DEP
+       WHERE DEP.N_DEP = EMP.N_DEP AND
+       (SELECT faixa from faixa_sal WHERE SAL BETWEEN SALMIN AND SALMAX) 
+       = (SELECT FAIXA FROM FAIXA_SAL,EMP WHERE SAL BETWEEN SALMIN AND SALMAX AND N_EMP = 4);
+
+SELECT NOME_EMP, SAL, LOCALIDADE
+FROM EMP E, DEP, FAIXA_SAL
+WHERE E.N_DEP = DEP.N_DEP AND
+      E.SAL BETWEEN SALMIN AND SALMAX AND
+      FAIXA = (SELECT FAIXA
+              FROM FAIXA_SAL, EMP UB
+              WHERE UB.NOME_EMP = 'UBIRATAN' AND
+              UB.SAL BETWEEN SALMIN AND SALMAX);
+
+-- 4)
+UPDATE EMP E 
+   SET SAL = SAL*1.2
+   WHERE DATA_ADM = (SELECT MIN(DATA_ADM) FROM EMP
+                    WHERE N_DEP = E.N_DEP)
+
+-- 5)
+DELETE EMP E
+   WHERE SAL > (SELECT AVG(SAL) FROM EMP 
+               WHERE E.CARGO = CARGO)
+               
+-- 6)
+Rollback;
+
+
+-- Exercicios Capitulo 8 --
+
+-- 1)
+grant select, insert on aluno to GC;
+
+-- COMANDOS NO GC
+select * from hr.aluno;
+update hr.aluno 
+       set nome = 'Mateus Sauer Govêa'
+       where nome = 'Mateus';
+-- ERRO POIS PERMISSAO DE UPDATE NAO FOI DADA
+
+insert into HR.aluno values ('Mateus Sauer Govêa', 'R.', 'Campinas','SP',13059,'14/11/1996');
+-- SUCESSO POIS TEM PERMISSOA DE INSERT
+
+
+-- 2)
+CREATE SYNONYM ALUNO0 FOR HR.ALUNO;
+
+CREATE PUBLIC SYNONYM ALUNO2 FOR HR.ALUNO;
+
+SELECT * FROM ALUNO0;
+
+-- 3)
+LOCK TABLE ALUNO0 IN EXCLUSIVE MODE;
+
+INSERT INTO ALUNO0 
+VALUES ('NOME', 'ENDERECO', 'CIDADE', 'ST', 00000, '01/01/1990');
+COMMIT;
+
+-- 4)
+CREATE INDEX I_ALUNO_NOME ON ALUNO0(NOME);
+CREATE INDEX I_ALUNO_ESTADO ON ALUNO0(ESTADO);
+
+-- 5)
+REVOKE SELECT, INSERT ON ALUNO FROM GC;
+
+-- 6)
+SELECT ui.index_name, ui.table_name, column_name
+FROM user_indexes ui, user_ind_columns unid
+WHERE ui.index_name = unid.index_name
+      AND ui.table_name = 'ALUNO';
+      
+-- 7)
+select * 
+from dba_tab_privs
+where TABLE_NAME = 'ALUNO' AND TABLE_SCHEMA = 'HR';
